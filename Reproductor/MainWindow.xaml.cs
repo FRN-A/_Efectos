@@ -106,29 +106,23 @@ namespace Reproductor
             }
             else
             {
-                reader =
-                    new AudioFileReader(txtRutaArchivo.Text);
+                reader = new AudioFileReader(txtRutaArchivo.Text);
 
-                delay =
-                    new Delay(reader);
+                delay = new Delay(reader);
                 delay.activo = (bool)cbDelayActivo.IsChecked;
+				delay.OffsetMilisegundos = (int)sldDelayOffset.Value;
 
-                fades = new FadeInOutSampleProvider(
-                    delay, true);
-                double milisegundosFadeIn =
-                    Double.Parse(txtDuracionFadeIn.Text)
-                        * 1000.0;
+				fades = new FadeInOutSampleProvider(delay, true);
+                double milisegundosFadeIn = Double.Parse(txtDuracionFadeIn.Text) * 1000.0;
                 fades.BeginFadeIn(milisegundosFadeIn);
                 fadingOut = false;
                 output = new WaveOutEvent();
 
-                output.DeviceNumber =
-                    cbSalida.SelectedIndex;
+                output.DeviceNumber = cbSalida.SelectedIndex;
 
                 output.PlaybackStopped += Output_PlaybackStopped;
 
-                volume =
-                    new EfectoVolumen(fades);
+                volume = new EfectoVolumen(fades);
 
                 volume.Volume =
                     (float) sldVolumen.Value;
@@ -245,8 +239,7 @@ namespace Reproductor
 
         private void sldDelayOffset_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (delay != null && output != null &&
-                output.PlaybackState != PlaybackState.Stopped)
+            if (delay != null && output != null)
             {
                 delay.OffsetMilisegundos = (int)sldDelayOffset.Value;
 
@@ -256,5 +249,18 @@ namespace Reproductor
                 lblDelayOffset.Text = ((int)sldDelayOffset.Value).ToString() + " ms";
             }
         }
-    }
+
+		private void sldDelayGanancia_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			if (delay != null && output != null)
+			{
+				delay.Ganancia = (float)sldDelayGanancia.Value;
+
+			}
+			if (lblDelayGanancia != null)
+			{
+				lblDelayGanancia.Text = (sldDelayGanancia.Value).ToString();
+			}
+		}
+	}
 }
