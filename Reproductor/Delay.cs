@@ -10,18 +10,18 @@ namespace Reproductor
     class Delay : ISampleProvider
     {
         private ISampleProvider fuente;
-		private int offsetMilisegundos;
+        private int offsetMilisegundos;
         public int OffsetMilisegundos {
-			get
-			{
-				return offsetMilisegundos;
-			}
-			set
-			{
-				offsetMilisegundos = value;
-				cantidadMuestrasOffset = (int)(((float)offsetMilisegundos / 1000.0f) * (float)fuente.WaveFormat.SampleRate);
-			}
-		}
+            get
+            {
+                return offsetMilisegundos;
+            }
+            set
+            {
+                offsetMilisegundos = value;
+                cantidadMuestrasOffset = (int)(((float)offsetMilisegundos / 1000.0f) * (float)fuente.WaveFormat.SampleRate);
+            }
+        }
         private int cantidadMuestrasOffset;
 
         private List<float> bufferDelay =
@@ -31,9 +31,11 @@ namespace Reproductor
         private int cantidadMuestrasTranscurridas = 0;
         private int cantidadMuestrasBorradas = 0;
 
-		public float Ganancia { get; set; }
+        public float Ganancia { get; set; }
 
-        public bool activo = false;
+        public bool Activo { get; set; }
+
+        
 
 
         public WaveFormat WaveFormat
@@ -74,7 +76,7 @@ namespace Reproductor
                 cantidadMuestrasBorradas += diferencia;
             }
 
-            if (activo)
+            if (Activo)
             {
                 //Aplicar el efecto
                 if(milisegundosTranscurridos > offsetMilisegundos)

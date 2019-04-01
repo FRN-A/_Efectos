@@ -109,7 +109,7 @@ namespace Reproductor
                 reader = new AudioFileReader(txtRutaArchivo.Text);
 
                 delay = new Delay(reader);
-                delay.activo = (bool)cbDelayActivo.IsChecked;
+                delay.Activo = (bool)cbDelayActivo.IsChecked;
 				delay.OffsetMilisegundos = (int)sldDelayOffset.Value;
 
 				fades = new FadeInOutSampleProvider(delay, true);
@@ -117,6 +117,7 @@ namespace Reproductor
                 fades.BeginFadeIn(milisegundosFadeIn);
                 fadingOut = false;
                 output = new WaveOutEvent();
+                output.DesiredLatency = 150;
 
                 output.DeviceNumber = cbSalida.SelectedIndex;
 
@@ -233,7 +234,7 @@ namespace Reproductor
         {
             if (delay != null)
             {
-                delay.activo = (bool)cbDelayActivo.IsChecked;
+                delay.Activo = (bool)cbDelayActivo.IsChecked;
             }
         }
 
@@ -259,7 +260,7 @@ namespace Reproductor
 			}
 			if (lblDelayGanancia != null)
 			{
-				lblDelayGanancia.Text = (sldDelayGanancia.Value).ToString();
+				lblDelayGanancia.Text = (sldDelayGanancia.Value).ToString("f");
 			}
 		}
 	}
